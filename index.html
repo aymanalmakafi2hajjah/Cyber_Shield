@@ -1,0 +1,1538 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#080a0d">
+    <meta name="description"
+          content="درعك الرقمي - منصة توعوية للتعريف بمخاطر الإنترنت والهندسة الاجتماعية والتصيد الإلكتروني وطرق الحماية الرقمية.">
+
+    <title>درعك الرقمي | المهندس أيمن المعكفي</title>
+
+    <style>
+        :root {
+            --bg: #080a0d;
+            --panel: #11151b;
+            --panel-light: #181e26;
+            --yellow: #ffd400;
+            --yellow-light: #fff078;
+            --text: #f5f7fa;
+            --muted: #a5adb8;
+            --border: rgba(255, 212, 0, 0.2);
+            --green: #00e6a0;
+            --red: #ff4b5c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 85px;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: Tahoma, Arial, sans-serif;
+            line-height: 1.9;
+            overflow-x: hidden;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: auto;
+        }
+
+        /* الخلفية السيبرانية */
+
+        .background-grid {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255, 212, 0, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 212, 0, 0.025) 1px, transparent 1px);
+            background-size: 42px 42px;
+        }
+
+        .glow {
+            position: fixed;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(255, 212, 0, 0.06);
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glow-one {
+            top: 5%;
+            right: -100px;
+        }
+
+        .glow-two {
+            bottom: 5%;
+            left: -100px;
+        }
+
+        /* شريط التنقل */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 10, 13, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: bold;
+            color: var(--yellow);
+            white-space: nowrap;
+        }
+
+        .brand span {
+            display: block;
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 23px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            font-size: 13px;
+            color: #d8dde5;
+            transition: color 0.25s;
+        }
+
+        .nav-links a:hover {
+            color: var(--yellow);
+        }
+
+        .menu-button {
+            display: none;
+            border: 1px solid var(--border);
+            background: var(--panel);
+            color: var(--yellow);
+            padding: 7px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* الأزرار */
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 9px;
+            font-weight: bold;
+            font-size: 14px;
+            border: 1px solid var(--yellow);
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .btn-primary {
+            color: #111;
+            background: var(--yellow);
+        }
+
+        .btn-primary:hover {
+            background: var(--yellow-light);
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(255, 212, 0, 0.18);
+        }
+
+        .btn-outline {
+            color: var(--yellow);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 212, 0, 0.08);
+        }
+
+        /* القسم الرئيسي */
+
+        .hero {
+            min-height: 620px;
+            display: flex;
+            align-items: center;
+            padding: 90px 0;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: center;
+            gap: 55px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--yellow);
+            background: rgba(255, 212, 0, 0.07);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 5px 14px;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--green);
+        }
+
+        .hero h1 {
+            font-size: clamp(34px, 5vw, 57px);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--yellow);
+            text-shadow: 0 0 30px rgba(255, 212, 0, 0.1);
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: 16px;
+            max-width: 650px;
+            margin-bottom: 27px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .hero-visual {
+            min-height: 330px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cyber-card {
+            width: min(100%, 360px);
+            padding: 30px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: linear-gradient(145deg, #171c23, #0d1015);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .cyber-card .terminal-top {
+            display: flex;
+            gap: 7px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #292f37;
+            margin-bottom: 20px;
+        }
+
+        .terminal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #555;
+        }
+
+        .terminal-dot:nth-child(1) {
+            background: var(--red);
+        }
+
+        .terminal-dot:nth-child(2) {
+            background: var(--yellow);
+        }
+
+        .terminal-dot:nth-child(3) {
+            background: var(--green);
+        }
+
+        .terminal-label {
+            color: var(--green);
+            direction: ltr;
+            text-align: left;
+            font-family: Consolas, monospace;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .terminal-line {
+            color: #d4dae2;
+            font-family: Consolas, Tahoma, monospace;
+            font-size: 13px;
+            margin: 12px 0;
+        }
+
+        .terminal-line span {
+            color: var(--yellow);
+        }
+
+        .terminal-progress {
+            height: 5px;
+            border-radius: 10px;
+            background: #2b3138;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .terminal-progress span {
+            display: block;
+            width: 80%;
+            height: 100%;
+            background: var(--yellow);
+            animation: progress 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        @keyframes progress {
+            from { width: 45%; }
+            to { width: 95%; }
+        }
+
+        /* الأقسام */
+
+        section.content-section {
+            padding: 75px 0;
+        }
+
+        .section-heading {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 42px;
+        }
+
+        .section-heading small {
+            color: var(--yellow);
+            letter-spacing: 1px;
+        }
+
+        .section-heading h2 {
+            font-size: clamp(25px, 4vw, 36px);
+            margin: 8px 0 12px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .info-card {
+            background: linear-gradient(145deg, #141920, #0e1116);
+            border: 1px solid #272d35;
+            border-radius: 15px;
+            padding: 25px;
+            transition: 0.3s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--yellow);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            color: var(--yellow);
+            background: rgba(255, 212, 0, 0.08);
+            border: 1px solid var(--border);
+            font-size: 22px;
+            margin-bottom: 18px;
+        }
+
+        .info-card h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .info-card p {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 15px;
+        }
+
+        .info-card ul {
+            padding-right: 18px;
+            color: #d5dae1;
+            font-size: 12px;
+        }
+
+        .info-card li {
+            margin: 7px 0;
+        }
+
+        /* صندوق النصائح */
+
+        .tips-box {
+            background: linear-gradient(110deg, #171b21, #101318);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 35px;
+        }
+
+        .tips-box h3 {
+            font-size: 23px;
+            margin-bottom: 22px;
+            color: var(--yellow);
+        }
+
+        .tips-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 17px;
+        }
+
+        .tip {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            color: #d9dee5;
+            font-size: 14px;
+        }
+
+        .tip-mark {
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        /* خطوات الاستجابة */
+
+        .response-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .step {
+            border-right: 3px solid var(--yellow);
+            background: var(--panel);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .step-number {
+            color: var(--yellow);
+            font-size: 13px;
+            font-family: Consolas, monospace;
+        }
+
+        .step h3 {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        .step p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* التوعية */
+
+        .notice {
+            border: 1px solid rgba(0, 230, 160, 0.22);
+            background: rgba(0, 230, 160, 0.04);
+            padding: 25px;
+            border-radius: 14px;
+            margin-top: 25px;
+        }
+
+        .notice h3 {
+            color: var(--green);
+            margin-bottom: 8px;
+        }
+
+        .notice p {
+            color: #c3cbd5;
+            font-size: 14px;
+        }
+
+        /* التذييل */
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 30px 0;
+            text-align: center;
+            background: #090b0e;
+        }
+
+        footer p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        footer strong {
+            color: var(--yellow);
+        }
+
+        .footer-signature {
+            margin-top: 8px;
+            color: var(--yellow);
+        }
+
+        /* الشريحة الترحيبية المنبثقة */
+
+        .welcome-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background: rgba(0, 0, 0, 0.84);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .welcome-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .welcome-modal {
+            width: min(100%, 470px);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            padding: 35px 30px 30px;
+            border-radius: 22px;
+            border: 1px solid rgba(255, 212, 0, 0.55);
+            background:
+                radial-gradient(
+                    circle at top,
+                    rgba(255, 212, 0, 0.09),
+                    transparent 50%
+                ),
+                #101319;
+            box-shadow:
+                0 0 70px rgba(255, 212, 0, 0.09),
+                0 25px 80px rgba(0, 0, 0, 0.65);
+            transform: translateY(25px) scale(0.96);
+            transition: transform 0.4s ease;
+        }
+
+        .welcome-overlay.show .welcome-modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .welcome-modal::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--yellow),
+                transparent
+            );
+        }
+
+        .welcome-close {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1px solid #343a43;
+            background: #191e25;
+            color: #fff;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .welcome-close:hover {
+            background: #302a12;
+            color: var(--yellow);
+            border-color: var(--yellow);
+        }
+
+        /* مكان الصورة التي ستضيفها بنفسك */
+
+        .welcome-image-frame {
+            width: 125px;
+            height: 125px;
+            margin: 5px auto 20px;
+            border-radius: 50%;
+            padding: 4px;
+            border: 2px solid var(--yellow);
+            background: #090b0f;
+            box-shadow: 0 0 28px rgba(255, 212, 0, 0.13);
+            overflow: hidden;
+        }
+
+        .welcome-image-frame img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .welcome-badge {
+            display: inline-block;
+            color: var(--yellow);
+            border: 1px solid var(--border);
+            background: rgba(255, 212, 0, 0.06);
+            border-radius: 30px;
+            font-size: 11px;
+            padding: 5px 13px;
+            margin-bottom: 12px;
+        }
+
+        .welcome-modal h2 {
+            font-size: 27px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .welcome-modal h2 span {
+            color: var(--yellow);
+        }
+
+        .welcome-description {
+            font-size: 13px;
+            line-height: 2;
+            color: var(--muted);
+            margin: 0 auto 22px;
+        }
+
+        .welcome-author {
+            font-size: 13px;
+            color: #dfe4eb;
+            margin-bottom: 22px;
+        }
+
+        .welcome-author strong {
+            color: var(--yellow);
+        }
+
+        .welcome-start {
+            width: 100%;
+            padding: 13px;
+            font-size: 14px;
+        }
+
+        .welcome-note {
+            display: block;
+            color: #717b88;
+            font-size: 10px;
+            margin-top: 14px;
+        }
+
+        /* إظهار العناصر عند التمرير */
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* الشاشات الصغيرة */
+
+        @media (max-width: 850px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .hero {
+                padding: 65px 0 40px;
+            }
+
+            .hero-visual {
+                min-height: 290px;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-content {
+                min-height: 68px;
+            }
+
+            .menu-button {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 68px;
+                right: 0;
+                left: 0;
+                padding: 18px 5%;
+                background: #0c0f13;
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 10px 0;
+                border-bottom: 1px solid #1d2229;
+            }
+
+            .brand {
+                font-size: 18px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+            }
+
+            .cards-grid,
+            .tips-list,
+            .response-steps {
+                grid-template-columns: 1fr;
+            }
+
+            section.content-section {
+                padding: 52px 0;
+            }
+
+            .tips-box {
+                padding: 22px;
+            }
+
+            .welcome-modal {
+                padding: 30px 22px 24px;
+            }
+
+            .welcome-modal h2 {
+                font-size: 23px;
+            }
+
+            .welcome-image-frame {
+                width: 110px;
+                height: 110px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="background-grid"></div>
+    <div class="glow glow-one"></div>
+    <div class="glow glow-two"></div>
+
+    <!-- =========================
+         الشريحة الترحيبية
+         ========================= -->
+
+    <div
+        class="welcome-overlay"
+        id="welcomeOverlay"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="welcomeTitle"
+        aria-hidden="true"
+    >
+        <div class="welcome-modal">
+
+            <button
+                class="welcome-close"
+                id="welcomeClose"
+                type="button"
+                aria-label="إغلاق النافذة"
+            >×</button>
+
+            <!--
+                ضع صورتك في نفس مجلد index.html
+                وسمِّها welcome.jpg
+                أو غيّر اسم الملف في الخاصية src أدناه.
+            -->
+
+            <div class="welcome-image-frame">
+                <img
+                    src="CyberShield.jpg"
+                    alt="صورة منصة درعك الرقمي"
+                    id="welcomeImage"
+                >
+            </div>
+
+            <div class="welcome-badge">
+                مرحباً بك في عالم الوعي الرقمي
+            </div>
+
+            <h2 id="welcomeTitle">
+                أهلاً بك في منصة
+                <span>درعك الرقمي</span>
+            </h2>
+
+            <p class="welcome-description">
+                رحلتك نحو إنترنت أكثر أماناً تبدأ من هنا.
+                اكتشف أبرز التهديدات الإلكترونية، وتعلّم كيف تحمي
+                حساباتك وبياناتك وخصوصيتك بأسلوب مبسط وعملي.
+            </p>
+
+            <div class="welcome-author">
+                بإشراف وتقديم
+                <br>
+                <strong>المهندس أيمن جلال المعكفي</strong>
+            </div>
+
+            <button
+                class="btn btn-primary welcome-start"
+                id="welcomeStart"
+                type="button"
+            >
+                ابدأ رحلتك في الوعي الأمني ←
+            </button>
+
+            <span class="welcome-note">
+                المعرفة الرقمية خط الدفاع الأول
+            </span>
+
+        </div>
+    </div>
+
+    <!-- =========================
+         شريط التنقل
+         ========================= -->
+
+    <header class="navbar">
+        <div class="container nav-content">
+
+            <a href="#home" class="brand">
+                درعك الرقمي
+                <span>DIGITAL SECURITY AWARENESS</span>
+            </a>
+
+            <button
+                class="menu-button"
+                id="menuButton"
+                type="button"
+                aria-expanded="false"
+                aria-controls="navLinks"
+            >
+                القائمة ☰
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="#home">الرئيسية</a>
+                <a href="#threats">التهديدات الرقمية</a>
+                <a href="#protection">الحماية</a>
+                <a href="#phishing">التصيد الإلكتروني</a>
+                <a href="#response">التعامل مع المخاطر</a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main>
+
+        <!-- =========================
+             الواجهة الرئيسية
+             ========================= -->
+
+        <section class="hero" id="home">
+            <div class="container hero-grid">
+
+                <div class="hero-content reveal">
+
+                    <div class="eyebrow">
+                        <span class="status-dot"></span>
+                        التوعية الأمنية تبدأ بالمعرفة
+                    </div>
+
+                    <h1>
+                        عالمك الرقمي يستحق
+                        <span>حماية أذكى</span>
+                    </h1>
+
+                    <p>
+                        أهلاً بك في درعك الرقمي، منصتك للتوعية بالأمن
+                        السيبراني. تعرّف على أساليب الاحتيال الإلكتروني،
+                        والهندسة الاجتماعية، والبرمجيات الضارة، واكتشف
+                        الخطوات العملية لحماية معلوماتك وهويتك الرقمية.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="#threats" class="btn btn-primary">
+                            اكتشف التهديدات
+                        </a>
+
+                        <a href="#protection" class="btn btn-outline">
+                            تعلّم كيف تحمي نفسك
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="hero-visual reveal">
+                    <div class="cyber-card">
+
+                        <div class="terminal-top">
+                            <span class="terminal-dot"></span>
+                            <span class="terminal-dot"></span>
+                            <span class="terminal-dot"></span>
+                        </div>
+
+                        <div class="terminal-label">
+                            DIGITAL_SECURITY_TERMINAL
+                        </div>
+
+                        <div class="terminal-line">
+                            <span>[01]</span> Awareness: Active
+                        </div>
+
+                        <div class="terminal-line">
+                            <span>[02]</span> Privacy: Important
+                        </div>
+
+                        <div class="terminal-line">
+                            <span>[03]</span> Threat Detection: Learn
+                        </div>
+
+                        <div class="terminal-line">
+                            <span>[04]</span> Your Security Matters
+                        </div>
+
+                        <div class="terminal-progress">
+                            <span></span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =========================
+             التهديدات الرقمية
+             ========================= -->
+
+        <section class="content-section" id="threats">
+            <div class="container">
+
+                <div class="section-heading reveal">
+                    <small>UNDERSTAND THE THREATS</small>
+                    <h2>تعرّف على أبرز التهديدات الرقمية</h2>
+                    <p>
+                        فهم التهديدات يساعدك على اكتشافها مبكراً
+                        وتجنب الوقوع ضحية لها.
+                    </p>
+                </div>
+
+                <div class="cards-grid">
+
+                    <article class="info-card reveal">
+                        <div class="card-icon">01</div>
+                        <h3>الهندسة الاجتماعية</h3>
+                        <p>
+                            أساليب نفسية يستخدمها المحتالون لخداع الأشخاص
+                            ودفعهم إلى كشف معلومات حساسة أو تنفيذ إجراءات
+                            قد تضر بأمنهم.
+                        </p>
+                        <ul>
+                            <li>انتحال شخصية موظف أو جهة موثوقة.</li>
+                            <li>استغلال الخوف والاستعجال والثقة.</li>
+                            <li>طلب كلمات المرور أو رموز التحقق.</li>
+                        </ul>
+                    </article>
+
+                    <article class="info-card reveal">
+                        <div class="card-icon">02</div>
+                        <h3>برامج التجسس</h3>
+                        <p>
+                            برامج قد تجمع بيانات المستخدم أو تراقب
+                            نشاطه دون علمه أو موافقته.
+                        </p>
+                        <ul>
+                            <li>مراجعة أذونات التطبيقات.</li>
+                            <li>تجنب التطبيقات مجهولة المصدر.</li>
+                            <li>تحديث الجهاز وبرامج الحماية.</li>
+                        </ul>
+                    </article>
+
+                    <article class="info-card reveal">
+                        <div class="card-icon">03</div>
+                        <h3>الفيروسات والبرمجيات الضارة</h3>
+                        <p>
+                            برامج قد تتسبب في سرقة المعلومات أو إتلاف
+                            الملفات أو تعطيل الأجهزة.
+                        </p>
+                        <ul>
+                            <li>الحذر من الملفات المشبوهة.</li>
+                            <li>تثبيت البرامج من مصادر موثوقة.</li>
+                            <li>الاحتفاظ بنسخ احتياطية للملفات.</li>
+                        </ul>
+                    </article>
+
+                    <article class="info-card reveal" id="phishing">
+                        <div class="card-icon">04</div>
+                        <h3>التصيد الإلكتروني</h3>
+                        <p>
+                            رسائل أو مواقع مزيفة تحاول إقناع المستخدم
+                            بإدخال بياناته أو الضغط على روابط خطيرة.
+                        </p>
+                        <ul>
+                            <li>فحص عنوان الموقع قبل تسجيل الدخول.</li>
+                            <li>عدم الثقة بالروابط غير المتوقعة.</li>
+                            <li>الدخول إلى الحساب من التطبيق الرسمي.</li>
+                        </ul>
+                    </article>
+
+                    <article class="info-card reveal">
+                        <div class="card-icon">05</div>
+                        <h3>سرقة الحسابات</h3>
+                        <p>
+                            الوصول غير المصرح به إلى حسابات المستخدمين
+                            نتيجة تسريب كلمات المرور أو خداعهم.
+                        </p>
+                        <ul>
+                            <li>استخدام كلمة مرور فريدة لكل حساب.</li>
+                            <li>تفعيل المصادقة متعددة العوامل.</li>
+                            <li>عدم مشاركة رموز التحقق مع أي شخص.</li>
+                        </ul>
+                    </article>
+
+                    <article class="info-card reveal">
+                        <div class="card-icon">06</div>
+                        <h3>مخاطر شبكات Wi-Fi</h3>
+                        <p>
+                            قد تعرض الشبكات غير الموثوقة بياناتك
+                            للخطر، خصوصاً عند استخدام خدمات غير آمنة.
+                        </p>
+                        <ul>
+                            <li>تجنب المعاملات الحساسة على الشبكات العامة.</li>
+                            <li>تعطيل الاتصال التلقائي بالشبكات المفتوحة.</li>
+                            <li>التحقق من أمان المواقع والتطبيقات.</li>
+                        </ul>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================
+             الحماية الرقمية
+             ========================= -->
+
+        <section class="content-section" id="protection">
+            <div class="container">
+
+                <div class="section-heading reveal">
+                    <small>PROTECT YOUR DIGITAL LIFE</small>
+                    <h2>كيف تحمي نفسك رقمياً؟</h2>
+                    <p>
+                        عادات أمنية بسيطة قد تقلل بشكل كبير من
+                        احتمالية تعرضك للاختراق أو الاحتيال.
+                    </p>
+                </div>
+
+                <div class="tips-box reveal">
+
+                    <h3>دليل الحماية الأساسية</h3>
+
+                    <div class="tips-list">
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>
+                                استخدم كلمات مرور طويلة وفريدة
+                                لكل حساب، ولا تشاركها مع الآخرين.
+                            </span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>
+                                فعّل المصادقة متعددة العوامل،
+                                ويفضل استخدام تطبيق مصادقة موثوق.
+                            </span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>
+                                حدّث نظام التشغيل والتطبيقات
+                                بصورة منتظمة.
+                            </span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>
+                                لا تضغط على رابط لمجرد أن الرسالة
+                                تبدو عاجلة أو تحمل اسم جهة معروفة.
+                            </span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>
+                                راجع أذونات التطبيقات واحذف
+                                التطبيقات التي لا تحتاج إليها.
+                            </span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>
+                                احتفظ بنسخ احتياطية من الملفات
+                                المهمة في مكان آمن.
+                            </span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>
+                                لا تشارك رمز التحقق الذي يصلك عبر
+                                الرسائل مع أي شخص.
+                            </span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>
+                                راجع جلسات تسجيل الدخول والأجهزة
+                                المرتبطة بحساباتك بصورة دورية.
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="notice reveal">
+                    <h3>تذكّر دائماً</h3>
+                    <p>
+                        لا توجد وسيلة حماية واحدة تمنع جميع المخاطر.
+                        اجمع بين الوعي الأمني، والتحديثات، وكلمات
+                        المرور القوية، والنسخ الاحتياطي، والتحقق
+                        من المصادر قبل الوثوق بها.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =========================
+             التعامل مع الحوادث
+             ========================= -->
+
+        <section class="content-section" id="response">
+            <div class="container">
+
+                <div class="section-heading reveal">
+                    <small>INCIDENT RESPONSE</small>
+                    <h2>ماذا تفعل عند الاشتباه بوجود اختراق؟</h2>
+                    <p>
+                        تصرّف بهدوء، وابدأ بالخطوات المناسبة لحماية
+                        حساباتك وبياناتك.
+                    </p>
+                </div>
+
+                <div class="response-steps">
+
+                    <article class="step reveal">
+                        <div class="step-number">STEP_01</div>
+                        <h3>أمّن الحسابات</h3>
+                        <p>
+                            استخدم جهازاً موثوقاً لتغيير كلمة المرور،
+                            وأنهِ الجلسات غير المعروفة، وفعّل
+                            المصادقة متعددة العوامل.
+                        </p>
+                    </article>
+
+                    <article class="step reveal">
+                        <div class="step-number">STEP_02</div>
+                        <h3>أوقف الخطر المحتمل</h3>
+                        <p>
+                            إذا شككت في ملف ضار، فلا تفتحه مجدداً.
+                            افصل الجهاز المتأثر عن الشبكة عند الاشتباه
+                            بإصابة نشطة، واطلب مساعدة مختص عند الحاجة.
+                        </p>
+                    </article>
+
+                    <article class="step reveal">
+                        <div class="step-number">STEP_03</div>
+                        <h3>أبلغ ووثّق</h3>
+                        <p>
+                            احتفظ بالرسائل والتنبيهات ذات الصلة،
+                            وأبلغ المنصة أو الجهة المختصة،
+                            وراجع النشاط المالي إذا كان الحساب
+                            مرتبطاً بخدمات مالية.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =========================
+             رسالة توعوية
+             ========================= -->
+
+        <section class="content-section">
+            <div class="container">
+
+                <div class="tips-box reveal" style="text-align:center;">
+
+                    <h3>كن واعياً قبل أن تكون ضحية</h3>
+
+                    <p style="color:var(--muted); margin-bottom:22px;">
+                        التقنية أداة قوية، لكن استخدامها بأمان
+                        يبدأ من قرارك بالتعلّم والتحقق والتفكير
+                        قبل الضغط أو مشاركة المعلومات.
+                    </p>
+
+                    <a href="#home" class="btn btn-primary">
+                        العودة إلى الأعلى ↑
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =========================
+         التذييل
+         ========================= -->
+
+    <footer>
+        <div class="container">
+
+            <p>
+                منصة توعوية تهدف إلى نشر الثقافة الرقمية
+                وتعزيز الوعي بالأمن السيبراني.
+            </p>
+
+            <p class="footer-signature">
+                مع تحيات المهندس أيمن جلال المعكفي
+            </p>
+
+            <p style="margin-top:10px; font-size:11px;">
+                © <span id="currentYear"></span> درعك الرقمي
+                — جميع الحقوق محفوظة.
+            </p>
+
+        </div>
+    </footer>
+
+    <script>
+        /* =====================================
+           إعدادات الشريحة الترحيبية
+           ===================================== */
+
+        const welcomeOverlay =
+            document.getElementById("welcomeOverlay");
+
+        const welcomeClose =
+            document.getElementById("welcomeClose");
+
+        const welcomeStart =
+            document.getElementById("welcomeStart");
+
+        const welcomeImage =
+            document.getElementById("welcomeImage");
+
+        /*
+          true  = تظهر النافذة مرة واحدة لكل متصفح.
+          false = تظهر النافذة عند كل فتح للموقع.
+
+          لتجربة النافذة عند كل زيارة، غيّر true إلى false.
+        */
+
+        const SHOW_WELCOME_ONCE = true;
+
+        const WELCOME_STORAGE_KEY =
+            "derhamDigitalWelcomeSeen";
+
+        function openWelcome() {
+            welcomeOverlay.classList.add("show");
+            welcomeOverlay.setAttribute("aria-hidden", "false");
+            document.body.classList.add("modal-open");
+
+            setTimeout(() => {
+                welcomeStart.focus();
+            }, 250);
+        }
+
+        function closeWelcome() {
+            welcomeOverlay.classList.remove("show");
+            welcomeOverlay.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("modal-open");
+
+            if (SHOW_WELCOME_ONCE) {
+                try {
+                    localStorage.setItem(
+                        WELCOME_STORAGE_KEY,
+                        "yes"
+                    );
+                } catch (error) {
+                    // يستمر الموقع بالعمل حتى لو كان التخزين محظوراً.
+                }
+            }
+        }
+
+        function initializeWelcome() {
+            let alreadySeen = false;
+
+            if (SHOW_WELCOME_ONCE) {
+                try {
+                    alreadySeen =
+                        localStorage.getItem(
+                            WELCOME_STORAGE_KEY
+                        ) === "yes";
+                } catch (error) {
+                    alreadySeen = false;
+                }
+            }
+
+            if (!alreadySeen) {
+                setTimeout(openWelcome, 450);
+            }
+        }
+
+        welcomeClose.addEventListener(
+            "click",
+            closeWelcome
+        );
+
+        welcomeStart.addEventListener("click", () => {
+            closeWelcome();
+
+            document.getElementById("home").scrollIntoView({
+                behavior: "smooth"
+            });
+        });
+
+        // إغلاق النافذة عند الضغط على المساحة الخارجية.
+        welcomeOverlay.addEventListener("click", (event) => {
+            if (event.target === welcomeOverlay) {
+                closeWelcome();
+            }
+        });
+
+        // إغلاق النافذة بزر Escape.
+        document.addEventListener("keydown", (event) => {
+            if (
+                event.key === "Escape" &&
+                welcomeOverlay.classList.contains("show")
+            ) {
+                closeWelcome();
+            }
+        });
+
+        // إظهار صورة بديلة عند عدم العثور على ملف الصورة.
+        welcomeImage.addEventListener("error", () => {
+            welcomeImage.style.display = "none";
+
+            const frame =
+                document.querySelector(".welcome-image-frame");
+
+            frame.style.display = "flex";
+            frame.style.alignItems = "center";
+            frame.style.justifyContent = "center";
+
+            /*
+              هذه الرسالة تظهر فقط إذا لم تضع صورتك بعد.
+              بمجرد إضافة welcome.jpg ستظهر الصورة بدلاً منها.
+            */
+
+            if (!frame.querySelector(".image-placeholder")) {
+                const placeholder =
+                    document.createElement("span");
+
+                placeholder.className = "image-placeholder";
+                placeholder.textContent = "أضف صورتك هنا";
+                placeholder.style.color = "#ffd400";
+                placeholder.style.fontSize = "12px";
+                placeholder.style.padding = "8px";
+
+                frame.appendChild(placeholder);
+            }
+        });
+
+        /* =====================================
+           القائمة الجانبية للهواتف
+           ===================================== */
+
+        const menuButton =
+            document.getElementById("menuButton");
+
+        const navLinks =
+            document.getElementById("navLinks");
+
+        menuButton.addEventListener("click", () => {
+            const isOpen =
+                navLinks.classList.toggle("open");
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+        });
+
+        navLinks.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => {
+                navLinks.classList.remove("open");
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+            });
+        });
+
+        /* =====================================
+           تأثير ظهور البطاقات أثناء التمرير
+           ===================================== */
+
+        const revealElements =
+            document.querySelectorAll(".reveal");
+
+        if ("IntersectionObserver" in window) {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("visible");
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                },
+                {
+                    threshold: 0.12
+                }
+            );
+
+            revealElements.forEach((element) => {
+                observer.observe(element);
+            });
+        } else {
+            revealElements.forEach((element) => {
+                element.classList.add("visible");
+            });
+        }
+
+        /* السنة الحالية */
+
+        document.getElementById("currentYear").textContent =
+            new Date().getFullYear();
+
+        /* بدء تشغيل النافذة الترحيبية */
+
+        initializeWelcome();
+    </script>
+
+</body>
+</html>
